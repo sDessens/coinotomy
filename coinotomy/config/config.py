@@ -11,7 +11,7 @@ import os
 STORAGE_CLASS = CsvStorageBackend
 
 # the directory where files should be stored
-STORAGE_DIRECTORY = "../coinotomy_data"
+STORAGE_DIRECTORY = "coinotomy_data"
 # create the dir on module load it doesn't exist yet
 if not os.path.exists(STORAGE_DIRECTORY): os.mkdir(STORAGE_DIRECTORY)
 
