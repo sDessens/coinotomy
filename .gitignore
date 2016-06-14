@@ -1,0 +1,14 @@
+
+### Python ###
+
+# pycharm files
+.idea/*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+### default data dir ###
+coinotomy_data/
