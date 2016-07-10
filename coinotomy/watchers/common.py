@@ -24,8 +24,9 @@ class Watcher(object):
                 if sleep:
                     time.sleep(self.interval)
                 self.tick()
+                backend.flush()
             except (KeyboardInterrupt, InterruptedError):
-                break
+                backend.flush()
             except:
                 self.log.exception("Exception while processing tick")
             sleep = True
