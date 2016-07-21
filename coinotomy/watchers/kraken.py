@@ -55,7 +55,7 @@ class KrakenAPI(object):
 
     def more_since_ts(self, since_ts):
         url = self.URL_SINCE_TS.format(pair=self.symbol,
-                                       since=since_ts * 1000 * 1000 * 1000)  # seconds to us
+                                       since=int(since_ts * 1000 * 1000 * 1000))  # seconds to ns
         html = self._query(url)
         return self._parse_response(html)
 
@@ -77,7 +77,7 @@ class KrakenAPI(object):
             ts = float(row[2])
             trades.append((ts, price, amount))
 
-        return trades, float(js["result"]["last"]) / 1000 / 1000 / 1000  # us to seconds
+        return trades, float(js["result"]["last"]) / 1000 / 1000 / 1000  # ns to seconds
 
 
 watchers = [
