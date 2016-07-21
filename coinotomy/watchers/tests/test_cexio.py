@@ -59,5 +59,5 @@ class TestWatcherCexio(unittest.TestCase):
         self.assert_(is_sorted(trades))
 
     def test_filtering_tid(self):
-        result = self.api._parse_response(self.SAMPLE_RESPONSE, self.api._since_tid_filter(995))
+        result = self.api._parse_response(self.SAMPLE_RESPONSE, self.api._since_tid_filter(995), 0)
         self.assertEqual(self.EXPECTED_SINCE_TID_995, result)

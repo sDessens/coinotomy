@@ -35,7 +35,7 @@ class WatcherBtcc(Watcher):
     def tick(self):
         if self.newest_tid:
             # trades filtered by api
-            trades, self.newest_tid = self.api.more_since_tid(self.newest_tid)
+            trades, newest_tid = self.api.more_since_tid(self.newest_tid)
         else:
             # Don't know newest TID. filter trades based on timestamp
             trades, self.newest_tid = self.api.more_since_timestamp(self.newest_timestamp)
@@ -72,7 +72,7 @@ class BtccAPI(object):
         url = self.URL_SINCE_TIMESTAMP.format(limit=MAX_LIMIT, since=since_timestamp)
         html = self._query(url)
 
-        return self._parse_response(html, self._since_timestamp_filter(since_timestamp))
+        return self._parse_response(html, self._since_timestamp_filter(since_timestamp), 0)
 
     def more_since_tid(self, since_tid):
         # if since tid is 0, the api actually returns the newest trades.
@@ -81,7 +81,7 @@ class BtccAPI(object):
             since_tid = 1
         url = self.URL_SINCE_TID.format(limit=MAX_LIMIT, since=since_tid)
         html = self._query(url)
-        return self._parse_response(html, self._since_tid_filter(since_tid))
+        return self._parse_response(html, self._since_tid_filter(since_tid), since_tid)
 
     def _since_timestamp_filter(self, since_timestamp):
         return lambda tid, ts: ts > since_timestamp
@@ -93,13 +93,13 @@ class BtccAPI(object):
         with urllib.request.urlopen(url, timeout=10) as response:
             return str(response.read(), 'ascii')
 
-    def _parse_response(self, html, filter):
+    def _parse_response(self, html, filter, since_tid):
         """
         return (array_of_trades, newest_tid)
         """
         js = json.loads(html)
         trades = []
-        newest_tid = 0
+        newest_tid = since_tid
         for row in js:
             tid = int(row['tid'])
             newest_tid = max(newest_tid, tid)

@@ -26,8 +26,6 @@ class WatcherCexio(Watcher):
             last_trade = trade
             n_trades += 1
 
-        print(n_trades, last_trade)
-
         # determine the timestamp of the last trade
         if last_trade is None:
             self.newest_timestamp = 0
@@ -36,14 +34,16 @@ class WatcherCexio(Watcher):
             # the newest timestamp is only meant to prevent double-inclusion of trades,
             # we don't need to update it after it is set once
             self.newest_timestamp = last_trade[0]
-            # cex api works by tid, but we don't store the last tic
+            # cex api works by tid, but we don't store the last tid
             # guess that the last tid is equal to the amount of trades in the file
-            # then do additional filtering in tick() with the nestest_timestamp
+            # then do additional filtering in tick() with the newest_timestamp
             self.newest_tid = n_trades
 
     def tick(self):
         # trades filtered by api
-        trades, self.newest_tid = self.api.more_since_tid(self.newest_tid)
+        trades, newest_tid = self.api.more_since_tid(self.newest_tid)
+        if newest_tid:
+            self.newest_tid = newest_tid
         trades = list(filter(lambda row: row[0] > self.newest_timestamp, trades))
 
         for ts, p, v in trades:
@@ -75,7 +75,7 @@ class CexioAPI(object):
         # Fix this by requesting since 1 instead.
         url = self.URL_SINCE_TID.format(symbol=self.symbol, since=max(since_tid, 1))
         html = self._query(url)
-        return self._parse_response(html, self._since_tid_filter(since_tid))
+        return self._parse_response(html, self._since_tid_filter(since_tid), since_tid)
 
     def _since_tid_filter(self, since_tid):
         return lambda tid, ts: tid >= since_tid
@@ -85,13 +85,13 @@ class CexioAPI(object):
         with urllib.request.urlopen(request, timeout=10) as response:
             return str(response.read(), 'ascii')
 
-    def _parse_response(self, html, filter):
+    def _parse_response(self, html, filter, since_tid):
         """
         return (array_of_trades, newest_tid)
         """
         js = json.loads(html)
         trades = []
-        newest_tid = 0
+        newest_tid = since_tid
         for row in js:
             tid = int(row['tid'])
             newest_tid = max(newest_tid, tid + 1)

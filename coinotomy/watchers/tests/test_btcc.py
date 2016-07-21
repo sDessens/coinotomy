@@ -78,9 +78,9 @@ class TestWatcherBtcc(unittest.TestCase):
         self.assertEqual(trades[-1], (1451618670.0, 2823.97, 0.189))
 
     def test_filtering_tid(self):
-        result = self.api._parse_response(self.SAMPLE_RESPONSE, self.api._since_tid_filter(1015))
+        result = self.api._parse_response(self.SAMPLE_RESPONSE, self.api._since_tid_filter(1015), 0)
         self.assertEqual(self.EXPECTED_SINCE_TID_1015, result)
 
     def test_filtering_timestamp(self):
-        result = self.api._parse_response(self.SAMPLE_RESPONSE, self.api._since_timestamp_filter(1311659923))
+        result = self.api._parse_response(self.SAMPLE_RESPONSE, self.api._since_timestamp_filter(1311659923), 0)
         self.assertEqual(self.EXPECTED_SINCE_TIMESTAMP_1311659923, result)
