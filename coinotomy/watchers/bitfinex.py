@@ -16,8 +16,9 @@ class WatcherBitfinex(Watcher):
 
         # find the last trade in the storage backend
         last_trade = None
-        for trade in self.backend.lines():
+        for trade in self.backend.rlines():
             last_trade = trade
+            break
 
         # determine the timestamp of the last trade
         if last_trade is None:

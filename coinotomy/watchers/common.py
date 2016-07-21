@@ -18,18 +18,17 @@ class Watcher(object):
         self.log.info("starting")
         self.setup(backend)
 
-        sleep = False
+        first = True
         while True:
             try:
-                if sleep:
-                    time.sleep(self.interval)
+                self.wait(first)
                 self.tick()
                 backend.flush()
             except (KeyboardInterrupt, InterruptedError):
                 backend.flush()
             except:
                 self.log.exception("Exception while processing tick")
-            sleep = True
+            first = False
 
         self.log.info("gracefully shutting down")
         self.unload()
@@ -43,4 +42,6 @@ class Watcher(object):
     def unload(self):
         raise NotImplementedError()
 
-
+    def wait(self, first):
+        if not first:
+            time.sleep(self.interval)
