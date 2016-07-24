@@ -1,23 +1,38 @@
-from queue import Queue
+from queue import PriorityQueue
 import time
-from threading import Thread
+from threading import Thread, Lock, Event
 
 
 class TicketSystem(object):
     def __init__(self, seconds_between_requests):
         self.seconds_between_requests = seconds_between_requests
-        self.queue = Queue(maxsize=1)
+        self.queue = PriorityQueue()
+
+        self.lock = Lock()
+
+    def get_ticket(self, priority):
+        with self.lock:
+            if self.queue.empty():
+                self.start_thread()
+            event = Event()
+            self.queue.put((priority + time.time(), event))
+        event.wait()
+
+    def start_thread(self):
         self.thread = Thread(target=self.run, args=())
         self.thread.start()
-
-    def get_ticket(self):
-        # Blocks forever if queue is not empty
-        # under both windows 10 and debian python3.4, threads are unblocked
-        # in the same order as they are blocked
-        self.queue.put(None)
 
     def run(self):
         while True:
             time.sleep(self.seconds_between_requests)
-            # Remove an item from the queue every so-much seconds
-            self.queue.get(True)
+            with self.lock:
+                (timeout, event) = self.queue.get(True)
+
+                if timeout <= time.time():
+                    event.set()
+                else:
+                    self.queue.put((timeout, event))
+                if self.queue.empty():
+                    return
+
+

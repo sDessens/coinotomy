@@ -6,6 +6,7 @@ from coinotomy.utils.ticketsystem import TicketSystem
 
 MAX_LIMIT = 1000
 NORMAL_TIMEOUT = 20
+SLOW_TIMEOUT = 1000
 
 class WatcherKraken(Watcher):
     # share rate limiting between all kraken instances
@@ -34,13 +35,18 @@ class WatcherKraken(Watcher):
         for ts, p, v in trades:
             self.backend.append(ts, p, v)
 
+        if len(trades) == MAX_LIMIT:
+            self.interval = NORMAL_TIMEOUT
+        else:
+            self.interval = SLOW_TIMEOUT
+
     def unload(self):
         if self.backend:
             self.backend.unload()
         self.backend = None
 
     def wait(self, first):
-        self.ticket_system.get_ticket()
+        self.ticket_system.get_ticket(self.interval)
 
 
 class KrakenAPI(object):

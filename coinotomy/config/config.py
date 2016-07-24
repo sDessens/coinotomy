@@ -5,6 +5,7 @@ import coinotomy.watchers.bitfinex
 import coinotomy.watchers.btcc
 import coinotomy.watchers.cexio
 import coinotomy.watchers.kraken
+import coinotomy.watchers.poloniex
 
 import os
 
@@ -23,7 +24,8 @@ WATCHERS = (
     coinotomy.watchers.bitfinex.watchers +
     coinotomy.watchers.btcc.watchers +
     coinotomy.watchers.cexio.watchers +
-    coinotomy.watchers.kraken.watchers
+    coinotomy.watchers.kraken.watchers +
+    coinotomy.watchers.poloniex.watchers
 )
 
 
