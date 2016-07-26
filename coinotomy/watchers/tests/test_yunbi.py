@@ -65,11 +65,12 @@ class TestWatcherYunbi(unittest.TestCase):
 
     def test_network_until_2016(self):
         trades, newest_tid = self.api.more_until_ts(1451606400)  # 01 Jan 2016 00:00:00 GMT
-        self.assertEqual(trades[0], (1439618883.0, 30.0, 0.5652))  # 01 Jan 2015 14:56:51 GMT
+        self.assertEqual(trades[0], (1451589221.0, 6.07, 23.56))  # 31 Dec 2015 19:13:41 GMT
         self.assertEqual(len(trades), 1) # only one trade
-        self.assertEqual(newest_tid, 9749783)
+        self.assertEqual(newest_tid, 18223978)
         self.assert_(is_sorted(trades))
 
         # check if re-querying the api returns only newer trades
         trades_2, newest_tid_2 = self.api.more_since_tid(newest_tid)
         self.assertNotEqual(trades_2[0], trades[0])
+

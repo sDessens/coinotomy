@@ -65,7 +65,7 @@ class YunbiAPI(object):
         self.symbol = symbol
         self.log = log
 
-    URL_UNTIL_TS = "https://yunbi.com//api/v2/trades.json?market={symbol}&timestamp={ts}&order_by=asc&limit=1"
+    URL_UNTIL_TS = "https://yunbi.com//api/v2/trades.json?market={symbol}&timestamp={ts}&order_by=desc&limit=1"
     URL_SINCE_TID = "https://yunbi.com//api/v2/trades.json?market={symbol}&from={tid}&order_by=asc&limit=1000"
     HEADERS = {
         'User-Agent': 'python',
