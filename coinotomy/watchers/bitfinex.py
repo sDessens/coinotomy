@@ -85,6 +85,8 @@ watchers = [
     WatcherBitfinex("btc_usd", "btcusd"),
     WatcherBitfinex("ltc_usd", "ltcusd"),
     WatcherBitfinex("eth_usd", "ethusd"),
+    WatcherBitfinex("etc_usd", "etcusd"),
     WatcherBitfinex("ltc_btc", "ltcbtc"),
     WatcherBitfinex("eth_btc", "ethbtc")
+    WatcherBitfinex("etc_btc", "etcbtc"),
 ]

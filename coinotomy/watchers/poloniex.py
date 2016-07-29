@@ -123,4 +123,6 @@ watchers = [
     WatcherPoloniex("eth_btc", "BTC_ETH"),
     WatcherPoloniex("btc_usdt", "USDT_BTC"),
     WatcherPoloniex("eth_usdt", "USDT_ETH"),
+    WatcherPoloniex("etc_btc", "BTC_ETC"),
+    WatcherPoloniex("etc_eth", "ETH_ETC"),
 ]

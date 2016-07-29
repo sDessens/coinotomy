@@ -87,5 +87,12 @@ class KrakenAPI(object):
 
 
 watchers = [
-    WatcherKraken("eth_btc", "XETHXXBT"),
+    WatcherKraken("btc_eur", "XXBTZEUR"),  
+    WatcherKraken("btc_usd", "XXBTZUSD"),  
+    WatcherKraken("eth_btc", "XETHXXBT"), 
+    WatcherKraken("eth_usd", "XETHZUSD"), 
+    WatcherKraken("eth_eur", "XETHZEUR"), 
+    WatcherKraken("etc_eur", "XETCZEUR"),  
+    WatcherKraken("etc_usd", "XETCZUSD"),  
+    WatcherKraken("etc_eth", "XETCXETH"),  
 ]
