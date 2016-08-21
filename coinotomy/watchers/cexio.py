@@ -100,8 +100,6 @@ class CexioAPI(object):
             amount = float(row['amount'])
             if filter(tid, timestamp):
                 trades.append((timestamp, price, amount))
-            else:
-                print(row)
 
         return trades[::-1], newest_tid
 

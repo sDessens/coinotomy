@@ -7,6 +7,7 @@ import coinotomy.watchers.cexio
 import coinotomy.watchers.kraken
 import coinotomy.watchers.poloniex
 import coinotomy.watchers.yunbi
+import coinotomy.watchers.yobit
 
 import os
 
@@ -27,7 +28,8 @@ WATCHERS = (
     coinotomy.watchers.cexio.watchers +
     coinotomy.watchers.kraken.watchers +
     coinotomy.watchers.poloniex.watchers +
-    coinotomy.watchers.yunbi.watchers
+    coinotomy.watchers.yunbi.watchers +
+    coinotomy.watchers.yobit.watchers
 )
 
 

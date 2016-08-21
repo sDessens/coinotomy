@@ -52,7 +52,6 @@ class TestWatcherCexio(unittest.TestCase):
 
     def test_network_since_tid_x(self):
         trades, newest_tid = self.api.more_since_tid(1000)
-        print(trades, newest_tid)
         self.assertEqual(len(trades), 1000)
         self.assertIsInstance(newest_tid, int)
         self.assertEqual(newest_tid, 2000)

@@ -41,7 +41,7 @@ class TestWatcherBtce(unittest.TestCase):
             self.assertIsInstance(row[1], float)
             self.assertIsInstance(row[2], float)
         self.assert_(is_sorted(trades))
-        self.assert_(len(trades), 150)
+        self.assertEqual(len(trades), 150)
 
     def test_parse_small_response(self):
         trades, newest_tid = self.api._parse_response(self.RESPONSE_2)
