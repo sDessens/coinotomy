@@ -9,6 +9,8 @@ import coinotomy.watchers.poloniex
 import coinotomy.watchers.yunbi
 import coinotomy.watchers.yobit
 import coinotomy.watchers.chbtc
+import coinotomy.watchers.gdax
+
 
 import os
 
@@ -31,7 +33,8 @@ WATCHERS = (
     coinotomy.watchers.poloniex.watchers +
     coinotomy.watchers.yunbi.watchers +
     coinotomy.watchers.yobit.watchers +
-    coinotomy.watchers.chbtc.watchers
+    coinotomy.watchers.chbtc.watchers +
+    coinotomy.watchers.gdax.watchers
 )
 
 

@@ -41,7 +41,7 @@ class WatcherPoloniex(Watcher):
         # since the polo api returns the most recent 50000 trades, rather than the oldest 50000,
         # we will skip trades if we receive 50000 trades.
         # if that happens, decrease the window size and try again.
-        if len(trades) == MAX_TRADES:
+        if len(trades) == self.api.window_size:
             self.api.window_size /= 2
             self.interval = FAST_TIMEOUT
             return

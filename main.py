@@ -9,7 +9,7 @@ from coinotomy.config.config import STORAGE_CLASS, STORAGE_DIRECTORY, WATCHERS
 
 
 log = logging.getLogger("main")
-logging.basicConfig(filename=os.path.join(STORAGE_DIRECTORY, 'log.txt'),
+logging.basicConfig(filename=os.path.join(STORAGE_DIRECTORY, 'log2.txt'),
                     filemode='a',
                     datefmt='%H:%M:%S',
                     level=logging.DEBUG)
