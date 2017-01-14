@@ -92,7 +92,10 @@ class YobitAPI(object):
 
 watchers = [
     WatcherYobit("etc_btc", "etc_btc"),
+    WatcherYobit("btc_usd", "btc_usd"),
     WatcherYobit("eth_btc", "eth_btc"),
+    WatcherYobit("eth_usd", "eth_usd"),
     WatcherYobit("lsk_btc", "lsk_btc"),
     WatcherYobit("dsh_btc", "dash_btc"),
 ]
+
