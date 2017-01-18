@@ -110,7 +110,6 @@ watchers = [
     WatcherCexio("ghs_btc", "GHS/BTC"),
     WatcherCexio("ltc_usd", "LTC/USD"),
     WatcherCexio("ltc_btc", "LTC/BTC"),
-    WatcherCexio("ltc_eur", "LTC/EUR"),
     WatcherCexio("btc_rub", "BTC/RUB"),
     WatcherCexio("eth_btc", "ETH/BTC"),
     WatcherCexio("eth_usd", "ETH/USD"),

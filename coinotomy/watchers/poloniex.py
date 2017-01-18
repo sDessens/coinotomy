@@ -189,8 +189,6 @@ watchers = [
 	WatcherPoloniex('fldc_btc', 'BTC_FLDC'),
 	WatcherPoloniex('xpm_btc', 'BTC_XPM'),
 	WatcherPoloniex('nsr_btc', 'BTC_NSR'),
-	WatcherPoloniex('xc_btc', 'BTC_XC'),
-	WatcherPoloniex('adn_btc', 'BTC_ADN'),
 	WatcherPoloniex('pink_btc', 'BTC_PINK'),
 	WatcherPoloniex('nobl_btc', 'BTC_NOBL'),
 	WatcherPoloniex('flo_btc', 'BTC_FLO'),
