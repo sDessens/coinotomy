@@ -49,7 +49,6 @@ class WatcherHitbtc(Watcher):
         else:
             trades, self.newest_tid = self.api.more_ts(self.newest_timestamp)
 
-        print('query got', len(trades), self.newest_tid)
         for ts, p, v in trades:
             self.backend.append(ts, p, v)
         self.backend.flush()
