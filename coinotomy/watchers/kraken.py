@@ -8,6 +8,7 @@ MAX_LIMIT = 1000
 NORMAL_TIMEOUT = 20
 SLOW_TIMEOUT = 1000
 
+
 class WatcherKraken(Watcher):
     # share rate limiting between all kraken instances
     ticket_system = TicketSystem(NORMAL_TIMEOUT)

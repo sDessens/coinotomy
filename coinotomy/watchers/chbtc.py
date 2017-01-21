@@ -62,7 +62,7 @@ class ChbtcApi(object):
         return self._parse_response(self._query(), since_tid=since_tid)
 
     def _query(self, since_tid=0):
-        url = 'http://api.chbtc.com/data/v1/trades?currency=%s/&since=%i' % \
+        url = 'http://api.chbtc.com/data/v1/trades?currency=%s&since=%i' % \
             (self.symbol, since_tid)
         with urllib.request.urlopen(url, timeout=10) as response:
             return str(response.read(), 'ascii')
