@@ -35,7 +35,7 @@ class WatcherBtcc(Watcher):
     def tick(self):
         if self.newest_tid:
             # trades filtered by api
-            trades, newest_tid = self.api.more_since_tid(self.newest_tid)
+            trades, self.newest_tid = self.api.more_since_tid(self.newest_tid)
         else:
             # Don't know newest TID. filter trades based on timestamp
             trades, self.newest_tid = self.api.more_since_timestamp(self.newest_timestamp)
