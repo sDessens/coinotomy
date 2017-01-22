@@ -11,6 +11,10 @@ import coinotomy.watchers.yobit
 import coinotomy.watchers.chbtc
 import coinotomy.watchers.gdax
 import coinotomy.watchers.hitbtc
+import coinotomy.watchers.btcbox
+import coinotomy.watchers.coincheck
+import coinotomy.watchers.korbit
+import coinotomy.watchers.coinone
 
 
 import os
@@ -36,7 +40,11 @@ WATCHERS = (
     coinotomy.watchers.yobit.watchers +
     coinotomy.watchers.chbtc.watchers +
     coinotomy.watchers.gdax.watchers +
-    coinotomy.watchers.hitbtc.watchers
+    coinotomy.watchers.hitbtc.watchers +
+    coinotomy.watchers.btcbox.watchers +
+    coinotomy.watchers.coincheck.watchers +
+    coinotomy.watchers.korbit.watchers +
+    coinotomy.watchers.coinone.watchers
 )
 
 
