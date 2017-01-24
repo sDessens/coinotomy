@@ -5,13 +5,15 @@ from coinotomy.watchers.common import Watcher
 
 NORMAL_TIMEOUT = 1
 
+TYPE_CN = 1
+TYPE_INT = 2
 
 class WatcherOkcoin(Watcher):
-    def __init__(self, name: str, symbol: str):
+    def __init__(self, name: str, type, symbol: str):
         Watcher.__init__(self, "okcoin." + name, NORMAL_TIMEOUT)
 
         self.backend = None
-        self.api = OkcoinAPI(symbol, self.log)
+        self.api = OkcoinAPI(symbol, type, self.log)
 
     def setup(self, backend):
         self.backend = backend
@@ -50,10 +52,12 @@ class WatcherOkcoin(Watcher):
 
 
 class OkcoinAPI(object):
-    def __init__(self, symbol, log):
-        self.symbol = symbol
-        self.log = log
 
+
+    def __init__(self, symbol, type, log):
+        self.symbol = symbol
+        self.type = type
+        self.log = log
 
     def more(self, since_tid=0):
         return self._parse_response(self._query(since_tid), since_tid=since_tid)
@@ -61,7 +65,10 @@ class OkcoinAPI(object):
     def _query(self, since_tid):
         if since_tid == 0:
             since_tid = 1
-        url = 'https://www.okcoin.cn/api/v1/trades.do?since=%i&symbol=%s' % (since_tid, self.symbol)
+        if self.type == TYPE_CN:
+            url = 'https://www.okcoin.cn/api/v1/trades.do?since=%i&symbol=%s' % (since_tid, self.symbol)
+        else:
+            url = 'https://www.okcoin.com/api/v1/trades.do?since=%i&symbol=%s' % (since_tid, self.symbol)
         with urllib.request.urlopen(url, timeout=10) as response:
             return str(response.read(), 'ascii')
 
@@ -87,6 +94,9 @@ class OkcoinAPI(object):
 
 
 watchers = [
-    WatcherOkcoin("btc_cny", "btc_cny"),
-    WatcherOkcoin("ltc_cny", "ltc_cny"),
+    WatcherOkcoin("btc_cny", TYPE_CN, "btc_cny"),
+    WatcherOkcoin("ltc_cny", TYPE_CN, "ltc_cny"),
+
+    WatcherOkcoin("btc_usd", TYPE_INT, "btc_usd"),
+    WatcherOkcoin("ltc_usd", TYPE_INT, "ltc_usd"),
 ]
