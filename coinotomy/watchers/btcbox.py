@@ -83,6 +83,4 @@ class BtcboxAPI(object):
 
 watchers = [
     WatcherBtcbox("btc_jpy", "btc"),
-    WatcherBtcbox("ltc_jpy", "ltc"),
-    WatcherBtcbox("doge_jpy", "doge"),
 ]
