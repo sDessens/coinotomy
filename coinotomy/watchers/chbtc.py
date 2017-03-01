@@ -93,5 +93,6 @@ watchers = [
     WatcherChbtc("btc_cny"),
     WatcherChbtc("eth_cny"),
     WatcherChbtc("etc_cny"),
+    WatcherChbtc("ltc_cny"),
 ]
 

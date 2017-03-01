@@ -103,5 +103,8 @@ watchers = [
     WatcherBtce("usd_rur", "usd_rur"),
     WatcherBtce("eur_rur", "eur_rur"),
     WatcherBtce("btc_rur", "btc_rur"),
-    WatcherBtce("ltc_rur", "ltc_rur")
+    WatcherBtce("ltc_rur", "ltc_rur"),
+    WatcherBtce("dsh_usd", "dsh_usd"),
+    WatcherBtce("eth_eur", "eth_eur"),
+    WatcherBtce("eth_rur", "eth_rur")
 ]
