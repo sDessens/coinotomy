@@ -101,6 +101,13 @@ class CexioAPI(object):
             if filter(tid, timestamp):
                 trades.append((timestamp, price, amount))
 
+        # bug: for some specific numbers, the CEX.IO api returns all trades /up to/
+        # the requested TID, instead of all trades /since/ the requested TID. This
+        # causes this program to end up in a deadlock. We fix this by incrementing
+        # the TID when this condition is detected
+        if len(trades) == 0 and len(js) != 0:
+            newest_tid += 1
+
         return trades[::-1], newest_tid
 
 
