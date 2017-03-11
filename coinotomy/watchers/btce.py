@@ -3,10 +3,12 @@ import json
 
 from coinotomy.watchers.common import Watcher
 
+DEFAULT_TIMEOUT = 1 * 60
+
 
 class WatcherBtce(Watcher):
     def __init__(self, name: str, symbol: str):
-        Watcher.__init__(self, "btce." + name, 5*60)
+        Watcher.__init__(self, "btce." + name, DEFAULT_TIMEOUT)
 
         self.backend = None
         self.api = BtceAPI(symbol, self.log)
