@@ -15,7 +15,10 @@ class TicketSystem(object):
             if self.queue.empty():
                 self.start_thread()
             event = Event()
-            self.queue.put((priority + time.time(), event))
+            # the tiebreaker makes sure the __lt__ operator on event is never
+            # called by PriorityQueue, since it doesn't have one.
+            tiebreaker = id(event)
+            self.queue.put((priority + time.time(), tiebreaker, event))
         event.wait()
 
     def start_thread(self):
@@ -26,12 +29,12 @@ class TicketSystem(object):
         while True:
             time.sleep(self.seconds_between_requests)
             with self.lock:
-                (timeout, event) = self.queue.get(True)
+                (timeout, tiebreaker, event) = self.queue.get(True)
 
                 if timeout <= time.time():
                     event.set()
                 else:
-                    self.queue.put((timeout, event))
+                    self.queue.put((timeout, tiebreaker, event))
                 if self.queue.empty():
                     return
 
