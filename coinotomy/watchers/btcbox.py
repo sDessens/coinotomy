@@ -67,6 +67,9 @@ class BtcboxAPI(object):
         js = json.loads(html)
         trades = []
         newest_tid = since_tid
+
+        print(js)
+
         for row in js:
             tid = int(row['tid'])
             if tid <= since_tid:
@@ -83,6 +86,4 @@ class BtcboxAPI(object):
 
 watchers = [
     WatcherBtcbox("btc_jpy", "btc"),
-    WatcherBtcbox("ltc_jpy", "ltc"),
-    WatcherBtcbox("doge_jpy", "doge"),
 ]
