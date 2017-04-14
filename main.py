@@ -14,6 +14,8 @@ logging.basicConfig(filename=os.path.join(STORAGE_DIRECTORY, 'log.txt'),
                     datefmt='%H:%M:%S',
                     level=logging.DEBUG)
 
+# disable logging for requests module
+logging.getLogger("requests").setLevel(logging.WARNING)
 
 def launch_worker(watcher):
     backend = STORAGE_CLASS(os.path.join(STORAGE_DIRECTORY, watcher.name))

@@ -1,5 +1,5 @@
-import urllib.request
 import json
+import requests
 
 from coinotomy.watchers.common import Watcher
 
@@ -69,14 +69,13 @@ class OkcoinAPI(object):
             url = 'https://www.okcoin.cn/api/v1/trades.do?since=%i&symbol=%s' % (since_tid, self.symbol)
         else:
             url = 'https://www.okcoin.com/api/v1/trades.do?since=%i&symbol=%s' % (since_tid, self.symbol)
-        with urllib.request.urlopen(url, timeout=10) as response:
-            return str(response.read(), 'ascii')
 
-    def _parse_response(self, html, since_tid=0):
+        return requests.get(url, timeout=10).json()
+
+    def _parse_response(self, js, since_tid=0):
         """
         return (array_of_trades, newest_tid)
         """
-        js = json.loads(html)
         trades = []
         newest_tid = since_tid
         for row in js:
