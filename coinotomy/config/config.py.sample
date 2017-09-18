@@ -1,6 +1,6 @@
 from coinotomy.backend.csvbackend import CsvStorageBackend
 
-import coinotomy.watchers.btce
+import coinotomy.watchers.wex
 import coinotomy.watchers.bitfinex
 import coinotomy.watchers.btcc
 import coinotomy.watchers.cexio
@@ -34,7 +34,7 @@ if not os.path.exists(STORAGE_DIRECTORY): os.mkdir(STORAGE_DIRECTORY)
 
 # the watchers to use.
 WATCHERS = (
-    coinotomy.watchers.btce.watchers +
+    coinotomy.watchers.wex.watchers +
     coinotomy.watchers.bitfinex.watchers +
     coinotomy.watchers.btcc.watchers +
     coinotomy.watchers.cexio.watchers +

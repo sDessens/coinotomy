@@ -6,12 +6,12 @@ from coinotomy.watchers.common import Watcher
 DEFAULT_TIMEOUT = 1 * 60
 
 
-class WatcherBtce(Watcher):
+class WatcherWex(Watcher):
     def __init__(self, name: str, symbol: str):
-        Watcher.__init__(self, "btce." + name, DEFAULT_TIMEOUT)
+        Watcher.__init__(self, "wex." + name, DEFAULT_TIMEOUT)
 
         self.backend = None
-        self.api = BtceAPI(symbol, self.log)
+        self.api = WexAPI(symbol, self.log)
 
     def setup(self, backend):
         self.backend = backend
@@ -49,7 +49,7 @@ class WatcherBtce(Watcher):
         self.backend = None
 
 
-class BtceAPI(object):
+class WexAPI(object):
     def __init__(self, symbol, log):
         self.symbol = symbol
         self.log = log
@@ -86,27 +86,44 @@ class BtceAPI(object):
 
 
 watchers = [
-    WatcherBtce("btc_usd", "btc_usd"),
-    WatcherBtce("eur_usd", "eur_usd"),
-    WatcherBtce("ltc_usd", "ltc_usd"),
-    WatcherBtce("eth_usd", "eth_usd"),
-    WatcherBtce("nmc_usd", "nmc_usd"),
-    WatcherBtce("nvc_usd", "nvc_usd"),
-    WatcherBtce("ppc_usd", "ppc_usd"),
-    WatcherBtce("btc_eur", "btc_eur"),
-    WatcherBtce("ltc_eur", "ltc_eur"),
-    WatcherBtce("ltc_btc", "ltc_btc"),
-    WatcherBtce("dsh_btc", "dsh_btc"),
-    WatcherBtce("eth_btc", "eth_btc"),
-    WatcherBtce("nmc_btc", "nmc_btc"),
-    WatcherBtce("nvc_btc", "nvc_btc"),
-    WatcherBtce("ppc_btc", "ppc_btc"),
-    WatcherBtce("eth_ltc", "eth_ltc"),
-    WatcherBtce("usd_rur", "usd_rur"),
-    WatcherBtce("eur_rur", "eur_rur"),
-    WatcherBtce("btc_rur", "btc_rur"),
-    WatcherBtce("ltc_rur", "ltc_rur"),
-    WatcherBtce("dsh_usd", "dsh_usd"),
-    WatcherBtce("eth_eur", "eth_eur"),
-    WatcherBtce("eth_rur", "eth_rur")
+    WatcherWex("btc_usd", "btc_usd"),
+    WatcherWex("btc_rur", "btc_rur"),
+    WatcherWex("btc_eur", "btc_eur"),
+    WatcherWex("ltc_btc", "ltc_btc"),
+    WatcherWex("ltc_usd", "ltc_usd"),
+    WatcherWex("ltc_rur", "ltc_rur"),
+    WatcherWex("ltc_eur", "ltc_eur"),
+    WatcherWex("nmc_btc", "nmc_btc"),
+    WatcherWex("nmc_usd", "nmc_usd"),
+    WatcherWex("nvc_btc", "nvc_btc"),
+    WatcherWex("nvc_usd", "nvc_usd"),
+    WatcherWex("usd_rur", "usd_rur"),
+    WatcherWex("eur_usd", "eur_usd"),
+    WatcherWex("eur_rur", "eur_rur"),
+    WatcherWex("ppc_btc", "ppc_btc"),
+    WatcherWex("ppc_usd", "ppc_usd"),
+    WatcherWex("dsh_btc", "dsh_btc"),
+    WatcherWex("dsh_usd", "dsh_usd"),
+    WatcherWex("dsh_rur", "dsh_rur"),
+    WatcherWex("dsh_eur", "dsh_eur"),
+    WatcherWex("dsh_ltc", "dsh_ltc"),
+    WatcherWex("dsh_eth", "dsh_eth"),
+    WatcherWex("eth_btc", "eth_btc"),
+    WatcherWex("eth_usd", "eth_usd"),
+    WatcherWex("eth_eur", "eth_eur"),
+    WatcherWex("eth_ltc", "eth_ltc"),
+    WatcherWex("eth_rur", "eth_rur"),
+    WatcherWex("usdet_usd", "usdet_usd"),
+    WatcherWex("ruret_rur", "ruret_rur"),
+    WatcherWex("euret_eur", "euret_eur"),
+    WatcherWex("btcet_btc", "btcet_btc"),
+    WatcherWex("ltcet_ltc", "ltcet_ltc"),
+    WatcherWex("ethet_eth", "ethet_eth"),
+    WatcherWex("nmcet_nmc", "nmcet_nmc"),
+    WatcherWex("nvcet_nvc", "nvcet_nvc"),
+    WatcherWex("ppcet_ppc", "ppcet_ppc"),
+    WatcherWex("dshet_dsh", "dshet_dsh"),
+    WatcherWex("bchet_bch", "bchet_bch"),
+    WatcherWex("bch_usd", "bch_usd"),
+    WatcherWex("bch_btc", "bch_btc"),
 ]

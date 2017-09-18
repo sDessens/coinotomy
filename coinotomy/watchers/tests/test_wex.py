@@ -2,7 +2,7 @@ import unittest
 import logging
 
 from coinotomy.backend.ramdiskbackend import RamdiskStorageBackend
-from coinotomy.watchers.btce import WatcherBtce, BtceAPI
+from coinotomy.watchers.wex import WatcherBtce, BtceAPI
 
 log = logging.getLogger("dummy")
 
