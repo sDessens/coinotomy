@@ -6,15 +6,15 @@ import time
 from coinotomy.watchers.common import Watcher
 from coinotomy.utils.ticketsystem import TicketSystem
 
-NORMAL_TIMEOUT = 40
-FAST_TIMEOUT = 1
+NORMAL_TIMEOUT = 1000
+FAST_TIMEOUT = 50
 
 INIT_WINDOW_SIZE = 60 * 60 * 24 * 30
 MAX_TRADES = 50000
 
 
 class WatcherPoloniex(Watcher):
-    ticket_system = TicketSystem(1)
+    ticket_system = TicketSystem(50)
 
     ORIGIN = 1388534400  # 01 Jan 2014 00:00:00 GMT
 

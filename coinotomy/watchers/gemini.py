@@ -51,9 +51,6 @@ class WatcherGemini(Watcher):
             self.backend.append(ts, p, v)
         self.backend.flush()
 
-        import datetime
-        print(self.name, datetime.datetime.fromtimestamp(self.newest_timestamp))
-
         if fast_retry:
             self.interval = NORMAL_TIMEOUT
 

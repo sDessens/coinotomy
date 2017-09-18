@@ -84,7 +84,7 @@ class YunbiAPI(object):
 
     def _query(self, url):
         request = urllib.request.Request(url, headers=self.HEADERS)
-        with urllib.request.urlopen(request, timeout=10) as response:
+        with urllib.request.urlopen(request, timeout=60) as response:
             return str(response.read(), 'ascii')
 
     def _parse_response(self, html):

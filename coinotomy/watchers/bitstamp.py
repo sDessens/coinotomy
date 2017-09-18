@@ -90,6 +90,13 @@ watchers = [
     WatcherBitstamp('eur_usd', 'eurusd'),
     WatcherBitstamp('xrp_usd', 'xrpusd'),
     WatcherBitstamp('xrp_eur', 'xrpeur'),
+    WatcherBitstamp('xrp_btc', 'xrpbtc'),
+    WatcherBitstamp('ltc_usd', 'ltcusd'),
+    WatcherBitstamp('ltc_eur', 'ltceur'),
+    WatcherBitstamp('ltc_btc', 'ltcbtc'),
+    WatcherBitstamp('eth_usd', 'ethusd'),
+    WatcherBitstamp('eth_eur', 'etheur'),
+    WatcherBitstamp('eth_btc', 'ethbtc'),
 ]
 
 
