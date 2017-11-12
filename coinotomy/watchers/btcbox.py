@@ -68,8 +68,6 @@ class BtcboxAPI(object):
         trades = []
         newest_tid = since_tid
 
-        print(js)
-
         for row in js:
             tid = int(row['tid'])
             if tid <= since_tid:

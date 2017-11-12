@@ -58,7 +58,7 @@ class WexAPI(object):
         return self._parse_response(self._query(), since_tid=since_tid)
 
     def _query(self):
-        url = 'https://btc-e.com/api/2/%s/trades/2000' % self.symbol
+        url = 'https://wex.nz/api/2/%s/trades/2000' % self.symbol
         with urllib.request.urlopen(url, timeout=10) as response:
             return str(response.read(), 'ascii')
 
