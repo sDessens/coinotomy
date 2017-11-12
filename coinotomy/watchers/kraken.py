@@ -96,5 +96,8 @@ watchers = [
     WatcherKraken("etc_btc", "XETCXXBT"),  
     WatcherKraken("etc_eur", "XETCZEUR"),  
     WatcherKraken("etc_usd", "XETCZUSD"),  
-    WatcherKraken("etc_eth", "XETCXETH"),  
+    WatcherKraken("etc_eth", "XETCXETH"),
+    WatcherKraken("bch_eur", "BCHEUR"),
+    WatcherKraken("bch_usd", "BCHUSD"),
+    WatcherKraken("bch_btc", "BCHXBT"),
 ]
