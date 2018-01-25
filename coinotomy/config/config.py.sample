@@ -1,5 +1,8 @@
 from coinotomy.backend.csvbackend import CsvStorageBackend
 
+# public key
+BINANCE_API_KEY = ''
+
 import coinotomy.watchers.wex
 import coinotomy.watchers.bitfinex
 import coinotomy.watchers.btcc
