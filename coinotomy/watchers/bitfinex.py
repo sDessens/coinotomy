@@ -11,7 +11,7 @@ TRADES_TO_QUERY = 1000
 MIN_TRADES_FOR_FAST_TIMEOUT = 950
 
 class WatcherBitfinex(Watcher):
-    ticket_system = TicketSystem(3)
+    ticket_system = TicketSystem(5)
 
     def __init__(self, name: str, symbol:str):
         Watcher.__init__(self, "bitfinex." + name, FAST_TIMEOUT)

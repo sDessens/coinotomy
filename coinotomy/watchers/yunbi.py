@@ -119,6 +119,4 @@ watchers = [
     WatcherYunbi("zec_cny", "zeccny"),
     WatcherYunbi("zmc_cny", "zmccny"),
     WatcherYunbi("gnt_cny", "gntcny"),
-    WatcherYunbi("pls_cny", "plscny"),
-    WatcherYunbi("bitcny_cny", "bitcnycny"),
 ]

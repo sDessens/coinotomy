@@ -50,7 +50,7 @@ class CoinoneAPI(object):
 
     def _query(self):
         url = 'https://api.coinone.co.kr/trades?currency=%s&format=json' % self.symbol
-        with urllib.request.urlopen(url, timeout=10) as response:
+        with urllib.request.urlopen(url, timeout=30) as response:
             return str(response.read(), 'ascii')
 
     def _parse_response(self, html, since_ts=0):
