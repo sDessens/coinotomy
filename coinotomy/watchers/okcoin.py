@@ -1,16 +1,19 @@
-import json
 import requests
 
 from coinotomy.watchers.common import Watcher
 
-NORMAL_TIMEOUT = 1
+NORMAL_TIMEOUT_INT = 30
+NORMAL_TIMEOUT_CN = 2
 
 TYPE_CN = 1
 TYPE_INT = 2
 
 class WatcherOkcoin(Watcher):
     def __init__(self, name: str, type, symbol: str):
-        Watcher.__init__(self, "okcoin." + name, NORMAL_TIMEOUT)
+        if type == TYPE_INT:
+            Watcher.__init__(self, "okcoin." + name, NORMAL_TIMEOUT_INT)
+        else:
+            Watcher.__init__(self, "okex." + name, NORMAL_TIMEOUT_CN)
 
         self.backend = None
         self.api = OkcoinAPI(symbol, type, self.log)
@@ -52,8 +55,6 @@ class WatcherOkcoin(Watcher):
 
 
 class OkcoinAPI(object):
-
-
     def __init__(self, symbol, type, log):
         self.symbol = symbol
         self.type = type
@@ -66,7 +67,7 @@ class OkcoinAPI(object):
         if since_tid == 0:
             since_tid = 1
         if self.type == TYPE_CN:
-            url = 'https://www.okcoin.cn/api/v1/trades.do?since=%i&symbol=%s' % (since_tid, self.symbol)
+            url = 'https://www.okex.com/api/v1/trades.do?since=%i&symbol=%s' % (since_tid, self.symbol)
         else:
             url = 'https://www.okcoin.com/api/v1/trades.do?since=%i&symbol=%s' % (since_tid, self.symbol)
 
@@ -93,9 +94,16 @@ class OkcoinAPI(object):
 
 
 watchers = [
-    WatcherOkcoin("btc_cny", TYPE_CN, "btc_cny"),
-    WatcherOkcoin("ltc_cny", TYPE_CN, "ltc_cny"),
+    WatcherOkcoin("btc_usdt", TYPE_CN, "btc_usdt"),
+    WatcherOkcoin("eth_btc", TYPE_CN, "eth_btc"),
+    WatcherOkcoin("eth_usdt", TYPE_CN, "eth_usdt"),
+    WatcherOkcoin("bch_btc", TYPE_CN, "bch_btc"),
+    WatcherOkcoin("bch_eth", TYPE_CN, "bch_eth"),
+    WatcherOkcoin("bch_usdt", TYPE_CN, "bch_usdt"),
 
     WatcherOkcoin("btc_usd", TYPE_INT, "btc_usd"),
     WatcherOkcoin("ltc_usd", TYPE_INT, "ltc_usd"),
+    WatcherOkcoin("eth_usd", TYPE_INT, "eth_usd"),
+    WatcherOkcoin("etc_usd", TYPE_INT, "etc_usd"),
+    WatcherOkcoin("bch_usd", TYPE_INT, "bch_usd"),
 ]
