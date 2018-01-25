@@ -1,11 +1,11 @@
-import urllib.request
+import requests
 import json
 
 from coinotomy.watchers.common import Watcher
 
 MAX_LIMIT = 5000
 NORMAL_TIMEOUT = 2*60
-FAST_TIMEOUT = 0
+FAST_TIMEOUT = 1
 
 
 class WatcherBtcc(Watcher):
@@ -59,29 +59,26 @@ class BtccAPI(object):
     def __init__(self, log):
         self.log = log
 
-    URL_SINCE_TIMESTAMP = "https://data.btcchina.com/data/historydata?since={since}&limit={limit}&sincetype=time"
-    URL_SINCE_TID = "https://data.btcchina.com/data/historydata?since={since}&limit={limit}"
-
-
+    URL_SINCE_TIMESTAMP = "https://spotusd-data.btcc.com/data/pro/historydata?symbol={symbol}&since={since}&limit={limit}&sincetype=time"
+    URL_SINCE_TID = "https://spotusd-data.btcc.com/data/pro/historydata?symbol={symbol}&since={since}&limit={limit}"
 
     def more_since_timestamp(self, since_timestamp):
         # if since timestamp is 0, the api actually returns the newest trades.
         # Fix this by requesting since 1 instead.
         if since_timestamp == 0:
             since_timestamp = 1
-        url = self.URL_SINCE_TIMESTAMP.format(limit=MAX_LIMIT, since=since_timestamp)
-        html = self._query(url)
-
-        return self._parse_response(html, self._since_timestamp_filter(since_timestamp), 0)
+        url = self.URL_SINCE_TIMESTAMP.format(symbol="btcusd", limit=MAX_LIMIT, since=since_timestamp)
+        js = self._query(url)
+        return self._parse_response(js, self._since_timestamp_filter(since_timestamp), 0)
 
     def more_since_tid(self, since_tid):
         # if since tid is 0, the api actually returns the newest trades.
         # Fix this by requesting since 1 instead.
         if since_tid == 0:
             since_tid = 1
-        url = self.URL_SINCE_TID.format(limit=MAX_LIMIT, since=since_tid)
-        html = self._query(url)
-        return self._parse_response(html, self._since_tid_filter(since_tid), since_tid)
+        url = self.URL_SINCE_TID.format(symbol="btcusd", limit=MAX_LIMIT, since=since_tid)
+        js = self._query(url)
+        return self._parse_response(js, self._since_tid_filter(since_tid), since_tid)
 
     def _since_timestamp_filter(self, since_timestamp):
         return lambda tid, ts: ts > since_timestamp
@@ -90,22 +87,24 @@ class BtccAPI(object):
         return lambda tid, ts: tid > since_tid
 
     def _query(self, url):
-        with urllib.request.urlopen(url, timeout=10) as response:
-            return str(response.read(), 'ascii')
+        req = requests.get(url, timeout=10)
+        return req.json()
+        # return requests.get(url, timeout=10).json()
+        # with urllib.request.urlopen(url, timeout=10) as response:
+        #     return str(response.read(), 'ascii')
 
-    def _parse_response(self, html, filter, since_tid):
+    def _parse_response(self, js, filter, since_tid):
         """
         return (array_of_trades, newest_tid)
         """
-        js = json.loads(html)
         trades = []
         newest_tid = since_tid
         for row in js:
-            tid = int(row['tid'])
+            tid = int(row['Id'])
             newest_tid = max(newest_tid, tid)
-            timestamp = float(row['date'])
-            price = float(row['price'])
-            amount = float(row['amount'])
+            timestamp = float(row['Timestamp']) / 1000
+            price = float(row['Price'])
+            amount = float(row['Quantity'])
             if filter(tid, timestamp):
                 trades.append((timestamp, price, amount))
 
