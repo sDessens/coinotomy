@@ -58,7 +58,7 @@ class CoincheckAPI(object):
         return self._parse_response(self._query(), since_tid=since_tid)
 
     def _query(self):
-        url = 'https://coincheck.jp/api/trades?limit=100'
+        url = 'https://coincheck.jp/api/trades?limit=100&pair=btc_jpy'
         with urllib.request.urlopen(url, timeout=10) as response:
             return str(response.read(), 'ascii')
 
@@ -72,7 +72,7 @@ class CoincheckAPI(object):
         js = json.loads(html)
         trades = []
         newest_tid = since_tid
-        for row in js:
+        for row in js['data']:
             tid = int(row['id'])
             if tid <= since_tid:
                 continue
