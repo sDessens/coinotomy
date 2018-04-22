@@ -1,11 +1,14 @@
 import json
 import urllib.request
+import time
 
 from coinotomy.utils.ticketsystem import TicketSystem
 from coinotomy.watchers.common import Watcher
 
 NORMAL_TIMEOUT = 1
 SLOW_TIMEOUT = 2*60
+
+MAXIMUM_HISTORY_LOOKBACK = 60*60*24*6.8 # slightly less than 7 days
 
 
 class WatcherGemini(Watcher):
@@ -43,6 +46,8 @@ class WatcherGemini(Watcher):
             self.newest_timestamp = last_trade[0] + 0.001
 
     def tick(self):
+        self.newest_timestamp = max(time.time() - MAXIMUM_HISTORY_LOOKBACK, self.newest_timestamp)
+
         self.interval = SLOW_TIMEOUT
         trades, self.newest_timestamp, self.newest_tid, fast_retry = \
             self.api.more_ts(self.newest_timestamp, self.newest_tid)
