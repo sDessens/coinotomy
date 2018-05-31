@@ -1,5 +1,6 @@
 import urllib.request
 import json
+import requests
 
 from coinotomy.watchers.common import Watcher
 
@@ -57,8 +58,7 @@ class BtcboxAPI(object):
 
     def _query(self):
         url = 'https://www.btcbox.co.jp/api/v1/orders?coin=%s' % self.symbol
-        with urllib.request.urlopen(url, timeout=10) as response:
-            return str(response.read(), 'ascii')
+        return requests.get(url, timeout=10, headers={'user-agent': 'Mozilla/5.0'}).text
 
     def _parse_response(self, html, since_tid=0):
         """
