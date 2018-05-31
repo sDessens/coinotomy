@@ -3,7 +3,7 @@ import json
 
 from coinotomy.watchers.common import Watcher
 
-DEFAULT_TIMEOUT = 1 * 60
+DEFAULT_TIMEOUT = 3 * 60
 
 
 class WatcherWex(Watcher):
@@ -50,15 +50,29 @@ class WatcherWex(Watcher):
 
 
 class WexAPI(object):
+    SMALL_TRADE_SIZE = 50
+    LARGE_TRADE_SIZE = 500
+    HUGE_TRADE_SIZE = 5000
+
     def __init__(self, symbol, log):
         self.symbol = symbol
         self.log = log
 
     def more(self, since_tid=0):
-        return self._parse_response(self._query(), since_tid=since_tid)
+        if since_tid == 0:
+            return self._parse_response(self._query(self.HUGE_TRADE_SIZE), since_tid=since_tid)
 
-    def _query(self):
-        url = 'https://wex.nz/api/2/%s/trades/2000' % self.symbol
+        # progressively try to query more trades
+        trades, new_tid = self._parse_response(self._query(self.SMALL_TRADE_SIZE), since_tid=since_tid)
+        if len(trades) == self.SMALL_TRADE_SIZE:
+            return trades, new_tid
+        trades, new_tid = self._parse_response(self._query(self.LARGE_TRADE_SIZE), since_tid=since_tid)
+        if len(trades) == self.LARGE_TRADE_SIZE:
+            return trades, new_tid
+        return self._parse_response(self._query(self.HUGE_TRADE_SIZE), since_tid=since_tid)
+
+    def _query(self, amount):
+        url = 'https://wex.nz/api/3/trades/%s?limit=%i' % (self.symbol, amount)
         with urllib.request.urlopen(url, timeout=10) as response:
             return str(response.read(), 'ascii')
 
@@ -69,13 +83,13 @@ class WexAPI(object):
         js = json.loads(html)
         trades = []
         newest_tid = since_tid
-        for row in js:
+        for row in js[list(js.keys())[0]]:
             tid = int(row['tid'])
             if tid <= since_tid:
                 continue
 
             newest_tid = max(newest_tid, tid)
-            timestamp = float(row['date'])
+            timestamp = float(row['timestamp'])
             price = float(row['price'])
             amount = float(row['amount'])
             trades.append((timestamp, price, amount))
