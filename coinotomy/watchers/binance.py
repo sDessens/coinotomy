@@ -28,7 +28,9 @@ class WatcherBinance(Watcher):
         self.backend = backend
 
         # inefficient
-        self.newest_tid = len([_ for _ in self.backend.lines()])
+        self.newest_tid = 0
+        for line in self.backend.lines():
+            self.newest_tid += 1
 
     def tick(self):
         trades, self.newest_tid = self.api.more_since_tid(self.newest_tid)
