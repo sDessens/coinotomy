@@ -133,4 +133,5 @@ watchers = [
     WatcherHitbtc("ardr_btc", "ARDRBTC"),
     WatcherHitbtc("zec_btc", "ZECBTC"),
     WatcherHitbtc("waves_btc", "WAVESBTC"),
+    WatcherHitbtc("bch_btc", "BCHBTC"),
 ]
