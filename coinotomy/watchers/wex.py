@@ -64,10 +64,10 @@ class WexAPI(object):
 
         # progressively try to query more trades
         trades, new_tid = self._parse_response(self._query(self.SMALL_TRADE_SIZE), since_tid=since_tid)
-        if len(trades) == self.SMALL_TRADE_SIZE:
+        if len(trades) != self.SMALL_TRADE_SIZE:
             return trades, new_tid
         trades, new_tid = self._parse_response(self._query(self.LARGE_TRADE_SIZE), since_tid=since_tid)
-        if len(trades) == self.LARGE_TRADE_SIZE:
+        if len(trades) != self.LARGE_TRADE_SIZE:
             return trades, new_tid
         return self._parse_response(self._query(self.HUGE_TRADE_SIZE), since_tid=since_tid)
 
