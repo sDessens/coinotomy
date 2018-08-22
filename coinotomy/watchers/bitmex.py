@@ -5,7 +5,6 @@ import datetime
 
 from coinotomy.watchers.common import Watcher
 from coinotomy.utils.ticketsystem import TicketSystem
-from coinotomy.config import config
 
 NORMAL_TIMEOUT = 60
 FAST_TIMEOUT = 1
