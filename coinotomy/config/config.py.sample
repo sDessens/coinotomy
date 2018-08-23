@@ -23,7 +23,9 @@ import coinotomy.watchers.coinfloor
 import coinotomy.watchers.bl3p
 import coinotomy.watchers.okcoin
 import coinotomy.watchers.gemini
+import coinotomy.watchers.binance
 import coinotomy.watchers.bitmex
+import coinotomy.watchers.quoine
 
 import os
 
@@ -58,7 +60,9 @@ WATCHERS = (
     coinotomy.watchers.bl3p.watchers +
     coinotomy.watchers.okcoin.watchers +
     coinotomy.watchers.gemini.watchers +
-    coinotomy.watchers.bitmex.watchers
+    coinotomy.watchers.binance.watchers +
+    coinotomy.watchers.bitmex.watchers +
+    coinotomy.watchers.quoine.watchers
 )
 
 

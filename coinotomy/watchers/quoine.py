@@ -10,19 +10,19 @@ NORMAL_TIMEOUT = 60
 FAST_TIMEOUT = 1
 
 # maximum trades received per call call
-MAX_TRADES = 500
-MANY_TRADES = 200
+MAX_TRADES = 1000
+MANY_TRADES = 500
 
 EPOCH = 1483228800
 
-class WatcherBitmex(Watcher):
+class WatcherQuoine(Watcher):
     ticket_system = TicketSystem(1.01)
 
     def __init__(self, name: str, symbol: str):
-        Watcher.__init__(self, "bitmex." + name, NORMAL_TIMEOUT)
+        Watcher.__init__(self, "quoine." + name, NORMAL_TIMEOUT)
 
         self.backend = None
-        self.api = BitmexAPI(symbol, self.log)
+        self.api = QuoineAPI(symbol, self.log)
         self.interval = FAST_TIMEOUT
         self.newest_ts = 0
         self.newest_tid = None
@@ -32,7 +32,7 @@ class WatcherBitmex(Watcher):
 
         self.newest_ts = EPOCH
         for line in self.backend.rlines():
-            self.newest_ts = line[0] + 0.001
+            self.newest_ts = line[0] + 1
             break
 
     def tick(self):
@@ -54,32 +54,26 @@ class WatcherBitmex(Watcher):
         self.ticket_system.get_ticket(self.interval)
 
 
-class BitmexAPI(object):
+class QuoineAPI(object):
     def __init__(self, symbol, log):
         self.symbol = symbol
         self.log = log
 
     URL_SINCE_TS = \
-        'https://www.bitmex.com/api/v1/trade?symbol={symbol}&startTime={start}&count={count}'
-    URL_SINCE_TID = \
-        'https://www.bitmex.com/api/v1/trade?symbol={symbol}&start={start}&count={count}'
-
+        'https://api.quoine.com/executions?currency_pair_code={product_id}&timestamp={ts}&limit={count}'
+    HEADERS = {
+        'User-Agent': 'python',
+    }
 
     def more_since_ts_and_tid(self, since_ts, since_tid):
-        url = self.URL_SINCE_TS.format(symbol=self.symbol,
-                                       start=self.format_ts(since_ts),
+        url = self.URL_SINCE_TS.format(product_id=self.symbol,
+                                       ts=int(since_ts),
                                        count=MAX_TRADES)
         html = self._query(url)
         return self._parse_response(html, since_ts, since_tid)
 
-    def format_ts(self, since_ts):
-        return datetime.datetime.utcfromtimestamp(since_ts).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-
-    def parse_date(self, date):
-        return parser.parse(date).timestamp()
-
     def _query(self, url):
-        request = urllib.request.Request(url)
+        request = urllib.request.Request(url, headers=self.HEADERS)
         with urllib.request.urlopen(request, timeout=10) as response:
             return str(response.read(), 'ascii')
 
@@ -92,10 +86,10 @@ class BitmexAPI(object):
         trades = []
 
         for row in js:
-            tid = row['trdMatchID']
-            ts = self.parse_date(row['timestamp'])
+            tid = row['id']
+            ts = float(row['created_at'])
             price = float(row['price'])
-            amount = float(row['size'])
+            amount = float(row['quantity'])
 
             if found_tid:
                 trades.append((ts, price, amount))
@@ -109,6 +103,13 @@ class BitmexAPI(object):
         return trades, since_ts, since_tid
 
 watchers = [
-    WatcherBitmex("btc_usd", "XBTUSD"),
+    WatcherQuoine("btc_jpy", "BTCJPY"),
+    WatcherQuoine("btc_usd", "BTCUSD"),
+    WatcherQuoine("eth_jpy", "ETHJPY"),
+    WatcherQuoine("eth_usd", "ETHUSD"),
+    WatcherQuoine("eth_btc", "ETHBTC"),
+    WatcherQuoine("bch_jpy", "BCHJPY"),
+    WatcherQuoine("bch_usd", "BCHUSD"),
+
 ]
 

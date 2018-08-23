@@ -6,6 +6,9 @@ from coinotomy.watchers.common import Watcher
 from coinotomy.utils.ticketsystem import TicketSystem
 from coinotomy.config import config
 
+# fill me in!
+BINANCE_API_KEY = ''
+
 NORMAL_TIMEOUT = 1000
 FAST_TIMEOUT = 5
 
@@ -61,7 +64,7 @@ class BinanceAPI(object):
         'https://api.binance.com/api/v1/historicalTrades?symbol={symbol}&fromId={fromid}'
     HEADERS = {
         'User-Agent': 'python',
-        'X-MBX-APIKEY': config.BINANCE_API_KEY
+        'X-MBX-APIKEY': BINANCE_API_KEY
     }
 
     def more_since_tid(self, since_id):
